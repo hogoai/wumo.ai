@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>wumo.ai: simulate the physical world</title>
+<meta name="description" content="wumo.ai is one window onto many world models: 3D scenes, mechanics, materials and urban simulation. Choose and switch engines without changing your workflow.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' width='256' height='256'><title>wumo</title><rect width='64' height='64' rx='14' fill='%230F2A25'/><path fill='%23F2C14E' d='M32 32V13A19 19 0 0 1 51 32ZM32 32V51A19 19 0 0 1 13 32Z'/><circle cx='32' cy='32' r='19' fill='none' stroke='%23F2F5F3' stroke-width='4'/><path d='M32 6V58M6 32H58' stroke='%23F2F5F3' stroke-width='3'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#E6EBE8;
+    --paper-hi:#F2F5F3;
+    --ink:#0F2A25;
+    --ink-2:#4A5F5A;
+    --rule:#C3CDC9;
+    --cool:#2B5BA8;
+    --warm:#F2C14E;
+    --hot:#D9452B;
+    --font:"Archivo","Noto Sans SC",system-ui,sans-serif;
+    --font-zh:"Noto Sans SC","Archivo",system-ui,sans-serif;
+    --wrap:1200px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{
+    margin:0;color:var(--ink);font-family:var(--font);font-size:1.0625rem;line-height:1.55;
+    background-color:var(--paper);
+    background-image:
+      linear-gradient(var(--rule) 1px,transparent 1px),
+      linear-gradient(90deg,var(--rule) 1px,transparent 1px);
+    background-size:32px 32px;background-position:-1px -1px;
+    background-attachment:fixed;
+    -webkit-font-smoothing:antialiased;
+  }
+  /* soften the graph paper so it reads as texture, not pattern */
+  body::before{content:"";position:fixed;inset:0;background:rgba(230,235,232,.72);pointer-events:none;z-index:-1}
+  html[data-lang="zh"] body{font-family:var(--font-zh)}
+  html:not([data-lang="en"]) .en,html:not([data-lang="de"]) .de,html:not([data-lang="zh"]) .zh{display:none!important}
+  html[data-lang="de"] h1{font-size:clamp(2.3rem,4.4vw,4rem);hyphens:auto}
+
+
+  a{color:inherit}
+  :focus-visible{outline:2px solid var(--cool);outline-offset:3px}
+  .top :focus-visible{outline-color:var(--warm)}
+  .wrap{max-width:var(--wrap);margin:0 auto;padding:0 28px}
+
+  /* ---------- header ---------- */
+  .top{position:sticky;top:0;z-index:20;background:var(--ink);border-bottom:1px solid #000}
+  .top .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:24px}
+  .brand{display:flex;align-items:flex-end;gap:9px;text-decoration:none}
+  .brand b{font-weight:800;font-stretch:118%;font-size:1.35rem;letter-spacing:-.01em}
+  .brand span{font-family:var(--font-zh);font-weight:500;font-size:.95rem;line-height:1;color:#AFC1BB;margin-bottom:1px}
+  .wordmark{display:block}
+  .nav{display:flex;align-items:center;gap:26px}
+  .nav a{text-decoration:none;font-size:.95rem;color:#AFC1BB}
+  .nav a:hover{color:var(--paper-hi)}
+  .langs{display:flex;border:1px solid #5E7A73;border-radius:2px;overflow:hidden}
+  .langs button{font:inherit;font-size:.85rem;background:none;border:none;color:#AFC1BB;padding:5px 10px;cursor:pointer}
+  .langs button+button{border-left:1px solid #5E7A73}
+  .langs button[aria-pressed="true"]{background:var(--paper-hi);color:var(--ink)}
+  .langs button:hover:not([aria-pressed="true"]){background:#1c4139;color:var(--paper-hi)}
+  .btn{display:inline-block;font:inherit;font-weight:600;font-size:1rem;text-decoration:none;cursor:pointer;
+    padding:13px 22px;border-radius:2px;border:1.5px solid var(--ink);background:var(--ink);color:var(--paper-hi)}
+  .btn:hover{background:#1c4139}
+  .nav-cta{padding:8px 16px;font-size:.92rem;background:var(--warm);border-color:var(--warm);color:var(--ink)!important}
+  .nav-cta:hover{background:#f6d27c}
+  .btn.ghost{background:transparent;color:var(--ink)}
+  .btn.ghost:hover{background:var(--paper-hi)}
+  @media (max-width:820px){.nav a{display:none}.nav{gap:12px}}
+
+  /* ---------- hero ---------- */
+  .hero{padding:72px 0 88px}
+  .hero .wrap{display:grid;grid-template-columns:5fr 7fr;gap:56px;align-items:center}
+  h1{margin:0 0 24px;font-weight:800;font-stretch:125%;font-size:clamp(2.6rem,5.2vw,4.6rem);line-height:.98;letter-spacing:-.015em}
+  html[data-lang="zh"] h1{font-weight:900;line-height:1.15;letter-spacing:0;font-size:clamp(1.9rem,3.6vw,3.3rem)}
+  .lede{font-size:1.2rem;color:var(--ink-2);max-width:34em;margin:0 0 32px}
+  .cta-row{display:flex;flex-wrap:wrap;gap:12px}
+  @media (max-width:960px){.hero .wrap{grid-template-columns:1fr}.hero{padding-top:48px}}
+
+  /* the viewport: the one bold element on the page */
+  .viewport{background:var(--paper-hi);border:1.5px solid var(--ink);border-radius:3px;box-shadow:8px 8px 0 var(--ink)}
+  .vp-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;border-bottom:1px solid var(--rule);flex-wrap:wrap}
+  .engines{display:flex;gap:4px;flex-wrap:wrap}
+  .engines button{font:inherit;font-size:.88rem;padding:6px 12px;border:1px solid var(--rule);background:var(--paper);color:var(--ink-2);border-radius:2px;cursor:pointer}
+  .engines button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper-hi)}
+  .engines button:hover:not([aria-pressed="true"]){border-color:var(--ink);color:var(--ink)}
+  .reset{font:inherit;font-size:.85rem;background:none;border:none;color:var(--ink-2);text-decoration:underline;cursor:pointer;padding:4px}
+  canvas#sim{display:block;width:100%;height:340px;touch-action:none;cursor:grab}
+  canvas#sim.dragging{cursor:grabbing}
+  .vp-foot{display:grid;grid-template-columns:repeat(3,1fr) 1.4fr;border-top:1px solid var(--rule)}
+  .vp-foot>div{padding:10px 14px;border-right:1px solid var(--rule)}
+  .vp-foot>div:last-child{border-right:none}
+  .rd-k{font-size:.78rem;color:var(--ink-2)}
+  .rd-v{font-size:1.15rem;font-weight:700;font-stretch:110%;font-variant-numeric:tabular-nums}
+  .legend{height:10px;border-radius:1px;margin:6px 0 3px;background:linear-gradient(90deg,var(--cool),var(--warm),var(--hot))}
+  .legend-k{display:flex;justify-content:space-between;font-size:.75rem;color:var(--ink-2);font-variant-numeric:tabular-nums}
+  .vp-note{font-size:.85rem;color:var(--ink-2);margin:14px 2px 0}
+  @media (max-width:560px){.vp-foot{grid-template-columns:1fr 1fr}.vp-foot>div:nth-child(2){border-right:none}.vp-foot>div:nth-child(-n+2){border-bottom:1px solid var(--rule)}canvas#sim{height:280px}}
+
+  /* ---------- sections ---------- */
+  section{padding:96px 0}
+  h2{margin:0 0 16px;font-weight:800;font-stretch:120%;font-size:clamp(2rem,3.6vw,3rem);line-height:1.04;letter-spacing:-.01em;max-width:18em}
+  html[data-lang="zh"] h2{font-weight:900;line-height:1.2;letter-spacing:0}
+  .intro{color:var(--ink-2);font-size:1.15rem;max-width:36em;margin:0 0 48px}
+
+  /* domains: a specification table, not cards */
+  .domains{border-top:1.5px solid var(--ink)}
+  .domain{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,5fr) minmax(0,4fr);gap:32px;padding:28px 0;border-bottom:1px solid var(--rule);align-items:baseline}
+  .domain h3{margin:0;font-weight:700;font-stretch:112%;font-size:1.5rem;line-height:1.15}
+  html[data-lang="zh"] .domain h3{font-weight:700}
+  .domain p{margin:0;color:var(--ink)}
+  .domain .eg{color:var(--ink-2);font-size:.95rem}
+  .swatch{display:inline-block;width:10px;height:10px;margin-right:10px;vertical-align:2px;border-radius:1px}
+  @media (max-width:820px){.domain{grid-template-columns:1fr;gap:8px}}
+
+  /* engine switcher */
+  .switcher{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);border:1.5px solid var(--ink);background:var(--paper-hi);border-radius:3px}
+  .sw-list{border-right:1px solid var(--rule)}
+  .sw-list button{display:block;width:100%;text-align:left;font:inherit;background:none;border:none;border-bottom:1px solid var(--rule);padding:20px 22px;cursor:pointer;color:var(--ink-2)}
+  .sw-list button:last-child{border-bottom:none}
+  .sw-list button strong{display:block;color:var(--ink);font-size:1.12rem;font-weight:700;font-stretch:108%;margin-bottom:2px}
+  .sw-list button[aria-selected="true"]{background:var(--ink);color:#B8C7C2}
+  .sw-list button[aria-selected="true"] strong{color:var(--paper-hi)}
+  .sw-list button:hover:not([aria-selected="true"]){background:var(--paper)}
+  .sw-panel{padding:32px 36px}
+  .sw-panel h3{margin:0 0 10px;font-size:1.6rem;font-weight:800;font-stretch:115%;line-height:1.1}
+  .sw-panel p{margin:0 0 24px;max-width:38em}
+  .specs{display:grid;grid-template-columns:auto 1fr;gap:12px 24px;margin:0 0 24px;align-items:center}
+  .specs dt{font-size:.9rem;color:var(--ink-2)}
+  .specs dd{margin:0}
+  .meter{display:flex;gap:4px}
+  .meter i{display:block;width:28px;height:10px;background:var(--rule);border-radius:1px}
+  .meter i.on{background:var(--ink)}
+  .io{font-size:.95rem}
+  .byok{margin-top:22px;font-size:.95rem;color:var(--ink-2);max-width:44em}
+  @media (max-width:820px){.switcher{grid-template-columns:1fr}.sw-list{border-right:none;border-bottom:1px solid var(--rule)}.sw-panel{padding:24px 22px}}
+
+  /* steps: a real sequence, so numbers are earned */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;counter-reset:s;border-top:1.5px solid var(--ink)}
+  .step{padding:24px 24px 8px 0;counter-increment:s}
+  .step+.step{padding-left:24px;border-left:1px solid var(--rule)}
+  .step::before{content:counter(s);display:block;font-weight:800;font-stretch:125%;font-size:3rem;line-height:1;margin-bottom:14px;color:var(--ink)}
+  .step h3{margin:0 0 8px;font-size:1.15rem;font-weight:700}
+  .step p{margin:0;color:var(--ink-2);font-size:.98rem}
+  @media (max-width:880px){.steps{grid-template-columns:1fr 1fr}.step:nth-child(3){padding-left:0;border-left:none}}
+  @media (max-width:520px){.steps{grid-template-columns:1fr}.step,.step+.step{padding-left:0;border-left:none;border-bottom:1px solid var(--rule);padding-bottom:20px}}
+
+  /* waitlist */
+  .join{background:var(--ink);color:var(--paper-hi)}
+  .join .wrap{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:end}
+  .join h2{color:var(--paper-hi)}
+  .join .intro{color:#AFC1BB;margin-bottom:0}
+  form{display:grid;gap:12px}
+  label{font-size:.9rem;color:#AFC1BB}
+  input,select{font:inherit;width:100%;padding:13px 14px;border-radius:2px;border:1.5px solid #3D5F57;background:#163832;color:var(--paper-hi)}
+  input::placeholder{color:#7F9690}
+  input:focus,select:focus{border-color:var(--warm);outline:none}
+  .join .btn{background:var(--warm);border-color:var(--warm);color:var(--ink);justify-self:start}
+  .join .btn:hover{background:#f6d27c}
+  .msg{min-height:1.5em;font-size:.95rem;color:var(--warm);margin:0}
+  @media (max-width:880px){.join .wrap{grid-template-columns:1fr;gap:32px}}
+
+  footer{padding:32px 0;border-top:1px solid var(--rule);font-size:.9rem;color:var(--ink-2)}
+  footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#" aria-label="wumo.ai home">
+      <svg class="wordmark" viewBox="-2 -8 211 57" height="25" role="img" aria-label="wumo"><g fill="none" stroke="#F2F5F3" stroke-width="9" stroke-linecap="butt" stroke-linejoin="round"><path d="M4.5 0V29A11 11 0 0 0 26.5 29A11 11 0 0 0 48.5 29V0M26.5 29V0"/><path d="M64.5 0V29A11 11 0 0 0 86.5 29M86.5 0V44.5"/><path d="M102.5 44.5V11A11 11 0 0 1 124.5 11V44.5M124.5 11A11 11 0 0 1 146.5 11V44.5"/><circle cx="182.5" cy="20" r="20"/></g><path fill="#F2C14E" d="M182.5 20V4.5A15.5 15.5 0 0 1 198 20ZM182.5 20V35.5A15.5 15.5 0 0 1 167 20Z"/></svg><span>物模</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="#simulate"><span class="en">What you can simulate</span><span class="zh">应用领域</span><span class="de">Anwendungen</span></a>
+      <a href="#engines"><span class="en">World models</span><span class="zh">世界模型</span><span class="de">Weltmodelle</span></a>
+      <a href="#how"><span class="en">How it works</span><span class="zh">使用流程</span><span class="de">So funktioniert's</span></a>
+      <div class="langs" role="group" aria-label="Language"><button type="button" data-l="en" lang="en">EN</button><button type="button" data-l="de" lang="de">DE</button><button type="button" data-l="zh" lang="zh">中文</button></div>
+      <a class="btn nav-cta" href="#join"><span class="en">Join the waitlist</span><span class="zh">加入候补名单</span><span class="de">Auf die Warteliste</span></a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <div class="hero">
+    <div class="wrap">
+      <div>
+        <h1>
+          <span class="en">Simulate the physical world from one window.</span>
+          <span class="zh">一个窗口，<br><span style="white-space:nowrap">模拟真实物理世界。</span></span>
+          <span class="de">Die physische Welt in einem Fenster simulieren.</span>
+        </h1>
+        <p class="lede">
+          <span class="en">wumo.ai connects you to many world models and physics engines in one place. Build 3D scenes, test products, machines and materials, plan streets and squares, and switch engines whenever you like.</span>
+          <span class="zh">wumo.ai 把多种世界模型和物理引擎接入同一个平台。搭建三维场景、测试产品与设备的受力和材料、推演城市空间，并随时切换不同的模型引擎。</span>
+          <span class="de">wumo.ai verbindet Sie an einem Ort mit vielen Weltmodellen und Physik-Engines. Bauen Sie 3D-Szenen, testen Sie Produkte, Maschinen und Materialien, planen Sie Straßen und Plätze und wechseln Sie die Engine, wann immer Sie wollen.</span>
+        </p>
+        <div class="cta-row">
+          <a class="btn" href="#join"><span class="en">Join the waitlist</span><span class="zh">加入候补名单</span><span class="de">Auf die Warteliste</span></a>
+          <a class="btn ghost" href="#simulate"><span class="en">See what you can simulate</span><span class="zh">看看能模拟什么</span><span class="de">Anwendungen ansehen</span></a>
+        </div>
+      </div>
+
+      <div>
+        <div class="viewport">
+          <div class="vp-bar">
+            <div class="engines" role="group" aria-label="Simulation engine">
+              <button type="button" data-preset="steel" aria-pressed="true"><span class="en">Steel</span><span class="zh">钢材</span><span class="de">Stahl</span></button>
+              <button type="button" data-preset="timber" aria-pressed="false"><span class="en">Timber</span><span class="zh">木材</span><span class="de">Holz</span></button>
+              <button type="button" data-preset="foam" aria-pressed="false"><span class="en">Soft foam</span><span class="zh">软泡沫</span><span class="de">Weichschaum</span></button>
+            </div>
+            <button class="reset" id="resetBtn" type="button"><span class="en">Reset</span><span class="zh">重置</span><span class="de">Zurücksetzen</span></button>
+          </div>
+          <canvas id="sim" aria-label="Interactive cantilever beam simulation. Drag the beam to load it."></canvas>
+          <div class="vp-foot">
+            <div><div class="rd-k"><span class="en">Tip deflection</span><span class="zh">端部挠度</span><span class="de">Enddurchbiegung</span></div><div class="rd-v" id="rdDefl">0 mm</div></div>
+            <div><div class="rd-k"><span class="en">Peak strain</span><span class="zh">最大应变</span><span class="de">Max. Dehnung</span></div><div class="rd-v" id="rdStrain">0.0 %</div></div>
+            <div><div class="rd-k"><span class="en">Mesh nodes</span><span class="zh">网格节点</span><span class="de">Netzknoten</span></div><div class="rd-v" id="rdNodes">0</div></div>
+            <div>
+              <div class="rd-k"><span class="en">Strain</span><span class="zh">应变</span><span class="de">Dehnung</span></div>
+              <div class="legend" aria-hidden="true"></div>
+              <div class="legend-k"><span>0</span><span id="lgMax">3 %</span></div>
+            </div>
+          </div>
+        </div>
+        <p class="vp-note">
+          <span class="en">Drag the beam to load it, then swap the material. This demo runs in your browser; on wumo.ai the same scene can be sent to different world models.</span>
+          <span class="zh">拖动悬臂梁给它加载，再切换材料试试。这个演示在你的浏览器里运行；在 wumo.ai 上，同一个场景可以交给不同的世界模型来计算。</span>
+          <span class="de">Ziehen Sie am Balken, um ihn zu belasten, und wechseln Sie dann das Material. Die Demo läuft in Ihrem Browser; auf wumo.ai lässt sich dieselbe Szene an verschiedene Weltmodelle senden.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOMAINS -->
+  <section id="simulate">
+    <div class="wrap">
+      <h2><span class="en">Built for everything that has weight, light and space.</span><span class="zh">凡是有重量、光线和空间的，都能模拟。</span><span class="de">Für alles, was Gewicht, Licht und Raum hat.</span></h2>
+      <p class="intro"><span class="en">For anyone who needs to know how something will look and behave before it is built or made.</span><span class="zh">适用于所有需要在建造或制造之前，就知道“它会是什么样、会怎样表现”的人。</span><span class="de">Für alle, die wissen müssen, wie etwas aussieht und sich verhält, bevor es gebaut oder gefertigt wird.</span></p>
+
+      <div class="domains">
+        <div class="domain">
+          <h3><span class="swatch" style="background:var(--cool)"></span><span class="en">3D scenes and real-world settings</span><span class="zh">三维效果与真实场景</span><span class="de">3D-Szenen und reale Umgebungen</span></h3>
+          <p><span class="en">Turn a sketch, a photo or a floor plan into an explorable 3D space with believable light, shadow and movement.</span><span class="zh">把草图、照片或平面图变成可漫游的三维空间，光影与运动都真实可信。</span><span class="de">Machen Sie aus einer Skizze, einem Foto oder einem Grundriss einen begehbaren 3D-Raum mit glaubwürdigem Licht, Schatten und Bewegung.</span></p>
+          <p class="eg"><span class="en">Walk-throughs, product renders, site previews</span><span class="zh">空间漫游、产品渲染、场地预览</span><span class="de">Rundgänge, Produkt-Renderings, Standortvorschauen</span></p>
+        </div>
+        <div class="domain">
+          <h3><span class="swatch" style="background:#3E7C8C"></span><span class="en">Industrial products and machinery</span><span class="zh">工业产品与机电设备</span><span class="de">Industrieprodukte und Maschinen</span></h3>
+          <p><span class="en">From everyday products to large electromechanical equipment such as wind turbines: test strength, fatigue, heat, vibration and airflow on the digital model, before the first prototype.</span><span class="zh">从日常工业产品到风电机组等大型机电设备：在做出第一台样机之前，先在数字模型上测试强度、疲劳、散热、振动与气流。</span><span class="de">Vom Alltagsprodukt bis zur großen elektromechanischen Anlage wie einer Windenergieanlage: Prüfen Sie Festigkeit, Ermüdung, Wärme, Schwingungen und Strömung am digitalen Modell, noch vor dem ersten Prototyp.</span></p>
+          <p class="eg"><span class="en">Housing drop tests, gearbox vibration, rotor blade loads</span><span class="zh">外壳跌落测试、齿轮箱振动、风机叶片载荷</span><span class="de">Falltests für Gehäuse, Getriebeschwingungen, Rotorblattlasten</span></p>
+        </div>
+        <div class="domain">
+          <h3><span class="swatch" style="background:var(--hot)"></span><span class="en">Mechanics and structures</span><span class="zh">力学模拟</span><span class="de">Mechanik und Tragwerke</span></h3>
+          <p><span class="en">See where loads go. Check deflection, stress and stability of frames, stands, furniture and façades.</span><span class="zh">看清力的传递路径。检查框架、展台、家具和立面的变形、应力与稳定性。</span><span class="de">Sehen Sie, wohin die Lasten gehen. Prüfen Sie Durchbiegung, Spannung und Stabilität von Gestellen, Messeständen, Möbeln und Fassaden.</span></p>
+          <p class="eg"><span class="en">Wind load on a banner, a shelf under weight</span><span class="zh">展旗的风荷载、受压的置物架</span><span class="de">Windlast auf einem Banner, ein belastetes Regal</span></p>
+        </div>
+        <div class="domain">
+          <h3><span class="swatch" style="background:var(--warm)"></span><span class="en">Materials</span><span class="zh">材料模拟</span><span class="de">Materialien</span></h3>
+          <p><span class="en">Compare how steel, timber, glass, fabric or foam bend, drape, crack and age, before you order a sample.</span><span class="zh">在订购样品之前，比较钢、木、玻璃、织物或泡沫的弯曲、垂坠、开裂与老化。</span><span class="de">Vergleichen Sie, wie sich Stahl, Holz, Glas, Stoff oder Schaum biegen, fallen, reißen und altern, bevor Sie ein Muster bestellen.</span></p>
+          <p class="eg"><span class="en">Fabric drape, panel thickness, heat behaviour</span><span class="zh">织物垂坠、板材厚度、受热表现</span><span class="de">Stofffall, Plattenstärke, Wärmeverhalten</span></p>
+        </div>
+        <div class="domain">
+          <h3><span class="swatch" style="background:var(--ink)"></span><span class="en">Urban design</span><span class="zh">城市设计</span><span class="de">Stadtplanung</span></h3>
+          <p><span class="en">Model streets, squares and districts: sunlight across the year, wind between buildings, how people move.</span><span class="zh">推演街道、广场与街区：全年日照、楼宇间的风环境、人流的走向。</span><span class="de">Modellieren Sie Straßen, Plätze und Quartiere: Sonnenlicht übers Jahr, Wind zwischen Gebäuden, Bewegung von Menschen.</span></p>
+          <p class="eg"><span class="en">Shadow studies, pedestrian flow, wind comfort</span><span class="zh">日照分析、人流模拟、风舒适度</span><span class="de">Verschattungsstudien, Fußgängerströme, Windkomfort</span></p>
+        </div>
+        <div class="domain">
+          <h3><span class="swatch" style="background:#6E8F86"></span><span class="en">Exhibitions and spatial design</span><span class="zh">展览与空间设计</span><span class="de">Ausstellungen und Raumgestaltung</span></h3>
+          <p><span class="en">Plan stands and shows end to end: visitor flow, sightlines, lighting and the structure that holds it all up.</span><span class="zh">从头到尾规划展台和展览：观众动线、视线、灯光，以及支撑这一切的结构。</span><span class="de">Planen Sie Stände und Ausstellungen von Anfang bis Ende: Besucherführung, Sichtachsen, Licht und die Konstruktion, die alles trägt.</span></p>
+          <p class="eg"><span class="en">Trade-fair stands, museum rooms, pop-ups</span><span class="zh">展会展台、博物馆展厅、快闪空间</span><span class="de">Messestände, Museumsräume, Pop-ups</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENGINES -->
+  <section id="engines" style="padding-top:24px">
+    <div class="wrap">
+      <h2><span class="en">One interface. Many world models.</span><span class="zh">一个界面，接入多种世界模型。</span><span class="de">Eine Oberfläche. Viele Weltmodelle.</span></h2>
+      <p class="intro"><span class="en">Every model is good at something different. wumo.ai connects to several of them behind the scenes, so you pick the right one for each task and switch without rebuilding your scene.</span><span class="zh">每种模型各有所长。wumo.ai 在后台接入多个模型 API，你可以为每项任务选择最合适的那一个，切换时无需重建场景。</span><span class="de">Jedes Modell hat andere Stärken. wumo.ai bindet im Hintergrund mehrere davon an. So wählen Sie für jede Aufgabe das passende und wechseln, ohne Ihre Szene neu aufzubauen.</span></p>
+
+      <div class="switcher">
+        <div class="sw-list" role="tablist" aria-label="World model types" id="swList"></div>
+        <div class="sw-panel" role="tabpanel" id="swPanel" aria-live="polite"></div>
+      </div>
+      <p class="byok"><span class="en">Already have an account with a model provider? Add your own API key and use it inside wumo.ai.</span><span class="zh">已经有模型服务商的账号？填入你自己的 API Key，就能直接在 wumo.ai 里使用。</span><span class="de">Sie haben schon ein Konto bei einem Modellanbieter? Hinterlegen Sie Ihren eigenen API-Schlüssel und nutzen Sie ihn in wumo.ai.</span></p>
+    </div>
+  </section>
+
+  <!-- HOW -->
+  <section id="how" style="padding-top:24px">
+    <div class="wrap">
+      <h2><span class="en">From idea to tested scene in four steps.</span><span class="zh">四步，从想法到验证过的场景。</span><span class="de">In vier Schritten von der Idee zur geprüften Szene.</span></h2>
+      <p class="intro"><span class="en">No installation, no simulation background needed.</span><span class="zh">无需安装，也不需要仿真专业背景。</span><span class="de">Keine Installation, keine Simulationskenntnisse nötig.</span></p>
+      <div class="steps">
+        <div class="step">
+          <h3><span class="en">Describe or upload</span><span class="zh">描述或上传</span><span class="de">Beschreiben oder hochladen</span></h3>
+          <p><span class="en">Start from text, a sketch, photos, a floor plan or a 3D file.</span><span class="zh">从一段文字、草图、照片、平面图或三维文件开始。</span><span class="de">Starten Sie mit Text, einer Skizze, Fotos, einem Grundriss oder einer 3D-Datei.</span></p>
+        </div>
+        <div class="step">
+          <h3><span class="en">Choose a model</span><span class="zh">选择模型</span><span class="de">Modell wählen</span></h3>
+          <p><span class="en">wumo.ai suggests one for your task. You can always pick another.</span><span class="zh">wumo.ai 会根据任务推荐模型，你也可以随时换成别的。</span><span class="de">wumo.ai schlägt eines für Ihre Aufgabe vor. Sie können jederzeit ein anderes wählen.</span></p>
+        </div>
+        <div class="step">
+          <h3><span class="en">Run and compare</span><span class="zh">运行与对比</span><span class="de">Ausführen und vergleichen</span></h3>
+          <p><span class="en">Run the same scene on two models and view the results side by side.</span><span class="zh">让同一个场景在两个模型上运行，结果并排对比。</span><span class="de">Lassen Sie dieselbe Szene auf zwei Modellen laufen und vergleichen Sie die Ergebnisse nebeneinander.</span></p>
+        </div>
+        <div class="step">
+          <h3><span class="en">Export and share</span><span class="zh">导出与分享</span><span class="de">Exportieren und teilen</span></h3>
+          <p><span class="en">Download images, video, 3D files or data, or send a link to your client.</span><span class="zh">下载图片、视频、三维文件或数据，或直接发链接给客户。</span><span class="de">Laden Sie Bilder, Videos, 3D-Dateien oder Daten herunter oder schicken Sie Ihrem Kunden einen Link.</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JOIN -->
+  <section class="join" id="join">
+    <div class="wrap">
+      <div>
+        <h2><span class="en">Get early access.</span><span class="zh">抢先体验。</span><span class="de">Frühen Zugang sichern.</span></h2>
+        <p class="intro"><span class="en">wumo.ai is in early development. Leave your email and tell us what you want to simulate; we'll invite early users in small groups.</span><span class="zh">wumo.ai 正在早期开发中。留下邮箱并告诉我们你想模拟什么，我们会分批邀请早期用户。</span><span class="de">wumo.ai befindet sich in einer frühen Entwicklungsphase. Hinterlassen Sie Ihre E-Mail-Adresse und sagen Sie uns, was Sie simulieren möchten; wir laden erste Nutzer in kleinen Gruppen ein.</span></p>
+      </div>
+      <!-- GitHub Pages is static: set data-endpoint to a Formspree / Google Forms / other form URL to collect sign-ups. -->
+      <form id="joinForm" data-endpoint="" novalidate>
+        <label for="email"><span class="en">Email</span><span class="zh">邮箱</span><span class="de">E-Mail</span></label>
+        <input id="email" name="email" type="email" autocomplete="email" required data-ph-en="you@studio.com" data-ph-de="sie@studio.de" data-ph-zh="you@studio.com" placeholder="you@studio.com">
+        <label for="usecase"><span class="en">What do you want to simulate?</span><span class="zh">你想模拟什么？</span><span class="de">Was möchten Sie simulieren?</span></label>
+        <select id="usecase" name="usecase">
+          <option value="scenes" data-en="3D scenes and real-world settings" data-de="3D-Szenen und reale Umgebungen" data-zh="三维效果与真实场景">3D scenes and real-world settings</option>
+          <option value="industrial" data-en="Industrial products and machinery" data-de="Industrieprodukte und Maschinen" data-zh="工业产品与机电设备">Industrial products and machinery</option>
+          <option value="mechanics" data-en="Mechanics and structures" data-de="Mechanik und Tragwerke" data-zh="力学模拟">Mechanics and structures</option>
+          <option value="materials" data-en="Materials" data-de="Materialien" data-zh="材料模拟">Materials</option>
+          <option value="urban" data-en="Urban design" data-de="Stadtplanung" data-zh="城市设计">Urban design</option>
+          <option value="exhibitions" data-en="Exhibitions and spatial design" data-de="Ausstellungen und Raumgestaltung" data-zh="展览与空间设计">Exhibitions and spatial design</option>
+        </select>
+        <button class="btn" type="submit"><span class="en">Join the waitlist</span><span class="zh">加入候补名单</span><span class="de">Auf die Warteliste</span></button>
+        <p class="msg" id="joinMsg" role="status"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 wumo.ai</span>
+    <span><span class="en">Made in Germany</span><span class="zh">德国研发</span><span class="de">Entwickelt in Deutschland</span></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  /* ================= language ================= */
+  const root=document.documentElement;
+  const langBtns=document.querySelectorAll('.langs button');
+  const T=(o)=>o[lang]||o.en;
+  let lang='en';
+  try{const saved=localStorage.getItem('wumo-lang');const nl=(navigator.language||'').toLowerCase();
+    if(saved&&['en','de','zh'].includes(saved))lang=saved;else if(nl.startsWith('zh'))lang='zh';else if(nl.startsWith('de'))lang='de';}catch(e){}
+  function applyLang(){
+    root.dataset.lang=lang;root.lang=lang==='zh'?'zh-CN':lang;
+    langBtns.forEach(b=>b.setAttribute('aria-pressed',b.dataset.l===lang));
+    document.title=T({en:'wumo.ai: simulate the physical world',de:'wumo.ai: die physische Welt simulieren',zh:'wumo.ai 物模：模拟真实物理世界'});
+    document.querySelectorAll('option[data-en]').forEach(o=>o.textContent=o.dataset[lang]);
+    document.querySelectorAll('[data-ph-en]').forEach(i=>i.placeholder=i.dataset['ph'+lang[0].toUpperCase()+lang[1]]);
+    renderPanel();
+  }
+  langBtns.forEach(b=>b.addEventListener('click',()=>{lang=b.dataset.l;try{localStorage.setItem('wumo-lang',lang)}catch(e){}applyLang();}));
+
+  /* ================= engine switcher ================= */
+  const engines=[
+    {id:'gen',speed:5,fidelity:3,
+     en:{name:'Generative world models',short:'Fast, plausible, explorable',body:'Generate moving, interactive worlds from text or images. Best for mood, walk-throughs and quickly trying many ideas.',input:'Text, images, video',output:'Interactive scenes, video'},
+     de:{name:'Generative Weltmodelle',short:'Schnell, plausibel, begehbar',body:'Erzeugen bewegte, interaktive Welten aus Text oder Bildern. Ideal für Stimmung, Rundgänge und das schnelle Ausprobieren vieler Ideen.',input:'Text, Bilder, Video',output:'Interaktive Szenen, Video'},
+     zh:{name:'生成式世界模型',short:'快速、逼真、可交互',body:'从文字或图片生成可运动、可交互的世界。适合营造氛围、空间漫游，以及快速尝试大量创意。',input:'文字、图片、视频',output:'可交互场景、视频'}},
+    {id:'scene',speed:4,fidelity:4,
+     en:{name:'3D scene and reconstruction',short:'Real spaces as editable 3D',body:'Turn photos, scans or plans into accurate 3D spaces you can measure, edit and export.',input:'Photos, scans, floor plans',output:'Meshes, Gaussian splats, GLB'},
+     de:{name:'3D-Szenen und Rekonstruktion',short:'Reale Räume als editierbares 3D',body:'Machen aus Fotos, Scans oder Plänen genaue 3D-Räume, die Sie vermessen, bearbeiten und exportieren können.',input:'Fotos, Scans, Grundrisse',output:'Meshes, Gaussian Splats, GLB'},
+     zh:{name:'三维场景与重建模型',short:'把真实空间变成可编辑的三维',body:'把照片、扫描数据或平面图变成精确的三维空间，可测量、可编辑、可导出。',input:'照片、扫描、平面图',output:'网格、高斯泼溅、GLB'}},
+    {id:'solver',speed:2,fidelity:5,
+     en:{name:'Physics solvers',short:'Numbers you can build on',body:'Finite-element and fluid solvers for stress, fatigue, heat and airflow in products, machines and structures. Slower, but the results come with real values.',input:'3D geometry, materials, loads',output:'Stress maps, values, reports'},
+     de:{name:'Physik-Solver',short:'Zahlen, auf die Sie bauen können',body:'Finite-Elemente- und Strömungslöser für Spannung, Ermüdung, Wärme und Luftströmung in Produkten, Maschinen und Tragwerken. Langsamer, aber mit echten Werten.',input:'3D-Geometrie, Materialien, Lasten',output:'Spannungsbilder, Werte, Berichte'},
+     zh:{name:'物理求解器',short:'可以拿来施工的数据',body:'有限元与流体求解器，计算产品、设备与结构的应力、疲劳、温度与气流。速度较慢，但给出的是真实数值。',input:'三维几何、材料、荷载',output:'应力云图、数值、报告'}},
+    {id:'urban',speed:3,fidelity:4,
+     en:{name:'Urban and geospatial models',short:'Cities at the scale of a year',body:'Simulate sunlight, wind, heat and pedestrian movement across streets and districts, using real map data.',input:'Maps, building massing',output:'Shadow, wind and flow maps'},
+     de:{name:'Stadt- und Geodatenmodelle',short:'Städte im Maßstab eines Jahres',body:'Simulieren Sonnenlicht, Wind, Hitze und Fußgängerströme in Straßen und Quartieren auf Basis echter Kartendaten.',input:'Karten, Baumassen',output:'Schatten-, Wind- und Strömungskarten'},
+     zh:{name:'城市与地理空间模型',short:'以“一年”为尺度看城市',body:'基于真实地图数据，模拟街道与街区的日照、风、热环境以及人流。',input:'地图、建筑体量',output:'日照、风场与人流图'}}
+  ];
+  let current=0;
+  const swList=document.getElementById('swList'),swPanel=document.getElementById('swPanel');
+  function meter(n){let s='';for(let i=0;i<5;i++)s+='<i class="'+(i<n?'on':'')+'"></i>';return '<span class="meter" aria-label="'+n+' of 5">'+s+'</span>';}
+  function renderList(){
+    swList.innerHTML='';
+    engines.forEach((e,i)=>{
+      const b=document.createElement('button');
+      b.type='button';b.role='tab';b.id='tab-'+e.id;b.setAttribute('aria-selected',i===current);b.tabIndex=i===current?0:-1;
+      b.innerHTML='<strong>'+['en','de','zh'].map(l=>'<span class="'+l+'">'+e[l].name+'</span>').join('')+'</strong>'+['en','de','zh'].map(l=>'<span class="'+l+'">'+e[l].short+'</span>').join('');
+      b.addEventListener('click',()=>{current=i;renderList();renderPanel();});
+      b.addEventListener('keydown',ev=>{
+        if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){ev.preventDefault();current=(current+(ev.key==='ArrowDown'?1:-1)+engines.length)%engines.length;renderList();renderPanel();swList.children[current].focus();}
+      });
+      swList.appendChild(b);
+    });
+  }
+  function renderPanel(){
+    const e=engines[current],t=e[lang];
+    const L=T({en:{sp:'Speed',fi:'Physical accuracy',in:'Input',out:'Output'},de:{sp:'Geschwindigkeit',fi:'Physikalische Genauigkeit',in:'Eingabe',out:'Ausgabe'},zh:{sp:'速度',fi:'物理精度',in:'输入',out:'输出'}});
+    swPanel.setAttribute('aria-labelledby','tab-'+e.id);
+    swPanel.innerHTML='<h3>'+t.name+'</h3><p>'+t.body+'</p><dl class="specs"><dt>'+L.sp+'</dt><dd>'+meter(e.speed)+'</dd><dt>'+L.fi+'</dt><dd>'+meter(e.fidelity)+'</dd><dt>'+L.in+'</dt><dd class="io">'+t.input+'</dd><dt>'+L.out+'</dt><dd class="io">'+t.output+'</dd></dl>';
+  }
+  renderList();
+
+  /* ================= waitlist ================= */
+  const form=document.getElementById('joinForm'),msg=document.getElementById('joinMsg');
+  form.addEventListener('submit',async ev=>{
+    ev.preventDefault();
+    const email=form.email.value.trim();
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+      msg.textContent=T({en:'Enter a valid email address, like you@studio.com.',de:'Geben Sie eine gültige E-Mail-Adresse ein, z. B. sie@studio.de.',zh:'请输入有效的邮箱地址，例如 you@studio.com。'});form.email.focus();return;
+    }
+    const ep=form.dataset.endpoint;
+    if(ep){
+      try{await fetch(ep,{method:'POST',headers:{'Accept':'application/json'},body:new FormData(form)});}
+      catch(e){msg.textContent=T({en:'Sign-up didn\u2019t go through. Check your connection and try again.',de:'Die Anmeldung ist nicht durchgegangen. Prüfen Sie Ihre Verbindung und versuchen Sie es erneut.',zh:'没有发送成功，请检查网络后重试。'});return;}
+    }
+    msg.textContent=T({en:'You\u2019re on the waitlist. We\u2019ll email you when early access opens.',de:'Sie stehen auf der Warteliste. Wir schreiben Ihnen, sobald der frühe Zugang startet.',zh:'已加入候补名单。开放体验时我们会发邮件通知你。'});
+    form.reset();
+  });
+
+  applyLang();
+
+  /* ================= cantilever simulation ================= */
+  const canvas=document.getElementById('sim'),ctx=canvas.getContext('2d');
+  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const PRESETS={
+    steel:{iter:140,damp:.982,grav:1400,max:.03,label:'3 %'},
+    timber:{iter:28,damp:.986,grav:1400,max:.12,label:'12 %'},
+    foam:{iter:5,damp:.95,grav:650,max:.35,label:'35 %'}
+  };
+  let P=PRESETS.steel;
+  const COLS=26,ROWS=6,BEAM_M=2400; // beam stands for 2.4 m
+  let W=0,H=0,s=0,nodes=[],springs=[],x0=0,y0=0,drag=null,maxStrainSm=0,frame=0,running=true;
+
+  function resize(){
+    const dpr=Math.min(window.devicePixelRatio||1,2);
+    const r=canvas.getBoundingClientRect();W=r.width;H=r.height;
+    canvas.width=Math.round(W*dpr);canvas.height=Math.round(H*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);
+    build();
+  }
+  function build(){
+    const L=W*.74;s=L/(COLS-1);x0=W*.12;y0=H*.30;
+    nodes=[];springs=[];
+    for(let j=0;j<ROWS;j++)for(let i=0;i<COLS;i++){
+      const x=x0+i*s,y=y0+j*s;nodes.push({x,y,px:x,py:y,ox:x,oy:y,pin:i===0});
+    }
+    const id=(i,j)=>j*COLS+i;
+    const add=(a,b)=>{const dx=nodes[a].x-nodes[b].x,dy=nodes[a].y-nodes[b].y;springs.push({a,b,rest:Math.hypot(dx,dy)});};
+    for(let j=0;j<ROWS;j++)for(let i=0;i<COLS;i++){
+      if(i<COLS-1)add(id(i,j),id(i+1,j));
+      if(j<ROWS-1)add(id(i,j),id(i,j+1));
+      if(i<COLS-1&&j<ROWS-1){add(id(i,j),id(i+1,j+1));add(id(i+1,j),id(i,j+1));}
+      if(i<COLS-2)add(id(i,j),id(i+2,j)); // bending
+    }
+    document.getElementById('rdNodes').textContent=nodes.length;
+    if(reduce)for(let k=0;k<400;k++)step();
+  }
+  function step(){
+    const dt=1/60,g=P.grav*dt*dt*(s/22);
+    for(const n of nodes){
+      if(n.pin)continue;
+      const vx=(n.x-n.px)*P.damp,vy=(n.y-n.py)*P.damp;
+      n.px=n.x;n.py=n.y;n.x+=vx;n.y+=vy+g;
+    }
+    for(let k=0;k<P.iter;k++){
+      for(const sp of springs){
+        const a=nodes[sp.a],b=nodes[sp.b];
+        const dx=b.x-a.x,dy=b.y-a.y,d=Math.hypot(dx,dy)||1e-6,diff=(d-sp.rest)/d*.5;
+        const ox=dx*diff,oy=dy*diff;
+        if(!a.pin){a.x+=ox;a.y+=oy;}
+        if(!b.pin){b.x-=ox;b.y-=oy;}
+      }
+      if(drag){drag.n.x=drag.x;drag.n.y=drag.y;}
+    }
+  }
+  const STOPS=[[43,91,168],[242,193,78],[217,69,43]];
+  function cmap(t){
+    t=Math.max(0,Math.min(1,t));const k=t<.5?0:1,u=t<.5?t*2:(t-.5)*2,a=STOPS[k],b=STOPS[k+1];
+    return 'rgb('+Math.round(a[0]+(b[0]-a[0])*u)+','+Math.round(a[1]+(b[1]-a[1])*u)+','+Math.round(a[2]+(b[2]-a[2])*u)+')';
+  }
+  function edgeStrain(a,b,rest){return Math.abs(Math.hypot(b.x-a.x,b.y-a.y)-rest)/rest;}
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    // wall
+    const top=y0-s*2.2,bot=y0+s*(ROWS+1.2);
+    ctx.fillStyle='#0F2A25';ctx.fillRect(x0-5,top,5,bot-top);
+    ctx.strokeStyle='rgba(15,42,37,.55)';ctx.lineWidth=1;ctx.beginPath();
+    for(let y=top;y<bot;y+=9){ctx.moveTo(x0-5,y);ctx.lineTo(x0-16,y+11);}ctx.stroke();
+    // undeformed outline
+    ctx.setLineDash([4,4]);ctx.strokeStyle='rgba(15,42,37,.35)';
+    ctx.strokeRect(x0,y0,s*(COLS-1),s*(ROWS-1));ctx.setLineDash([]);
+    // cells
+    let maxS=0;const d=Math.SQRT2*s;
+    for(let j=0;j<ROWS-1;j++)for(let i=0;i<COLS-1;i++){
+      const a=nodes[j*COLS+i],b=nodes[j*COLS+i+1],c=nodes[(j+1)*COLS+i+1],e=nodes[(j+1)*COLS+i];
+      const st=(edgeStrain(a,b,s)+edgeStrain(e,c,s)+edgeStrain(a,e,s)+edgeStrain(b,c,s)+edgeStrain(a,c,d)+edgeStrain(b,e,d))/6*1.6;
+      if(st>maxS)maxS=st;
+      ctx.fillStyle=cmap(st/P.max);
+      ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.lineTo(c.x,c.y);ctx.lineTo(e.x,e.y);ctx.closePath();ctx.fill();
+    }
+    // mesh lines
+    ctx.strokeStyle='rgba(15,42,37,.38)';ctx.lineWidth=.7;ctx.beginPath();
+    for(let j=0;j<ROWS;j++){for(let i=0;i<COLS;i++){const n=nodes[j*COLS+i];i?ctx.lineTo(n.x,n.y):ctx.moveTo(n.x,n.y);}}
+    for(let i=0;i<COLS;i++){for(let j=0;j<ROWS;j++){const n=nodes[j*COLS+i];j?ctx.lineTo(n.x,n.y):ctx.moveTo(n.x,n.y);}}
+    ctx.stroke();
+    if(drag){ctx.fillStyle='#0F2A25';ctx.beginPath();ctx.arc(drag.n.x,drag.n.y,5,0,Math.PI*2);ctx.fill();}
+    // readouts
+    maxStrainSm+= (maxS-maxStrainSm)*.15;
+    if(frame++%6===0){
+      const tip=nodes[Math.floor(ROWS/2)*COLS+COLS-1];
+      const mm=Math.round(Math.hypot(tip.x-tip.ox,tip.y-tip.oy)*BEAM_M/(s*(COLS-1)));
+      document.getElementById('rdDefl').textContent=mm+' mm';
+      document.getElementById('rdStrain').textContent=(maxStrainSm*100).toFixed(1)+' %';
+    }
+  }
+  function loop(){if(running){step();draw();}requestAnimationFrame(loop);}
+
+  function pos(ev){const r=canvas.getBoundingClientRect();return{x:ev.clientX-r.left,y:ev.clientY-r.top};}
+  canvas.addEventListener('pointerdown',ev=>{
+    const p=pos(ev);let best=null,bd=48*48;
+    for(const n of nodes){if(n.pin)continue;const dd=(n.x-p.x)**2+(n.y-p.y)**2;if(dd<bd){bd=dd;best=n;}}
+    if(best){drag={n:best,x:p.x,y:p.y};canvas.setPointerCapture(ev.pointerId);canvas.classList.add('dragging');}
+  });
+  canvas.addEventListener('pointermove',ev=>{if(drag){const p=pos(ev);drag.x=p.x;drag.y=p.y;}});
+  const end=()=>{if(drag){drag.n.px=drag.n.x;drag.n.py=drag.n.y;}drag=null;canvas.classList.remove('dragging');};
+  canvas.addEventListener('pointerup',end);canvas.addEventListener('pointercancel',end);
+
+  document.querySelectorAll('.engines button').forEach(b=>b.addEventListener('click',()=>{
+    document.querySelectorAll('.engines button').forEach(x=>x.setAttribute('aria-pressed',x===b));
+    P=PRESETS[b.dataset.preset];document.getElementById('lgMax').textContent=P.label;
+    if(reduce)for(let k=0;k<400;k++)step();
+  }));
+  document.getElementById('resetBtn').addEventListener('click',build);
+
+  if('IntersectionObserver' in window){new IntersectionObserver(es=>{running=es[0].isIntersecting;}).observe(canvas);}
+  let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(resize,150);});
+  resize();loop();
+})();
+</script>
+</body>
+</html>
