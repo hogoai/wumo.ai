@@ -180,7 +180,7 @@
       <a href="#engines"><span class="en">World models</span><span class="zh">世界模型</span><span class="de">Weltmodelle</span></a>
       <a href="#how"><span class="en">How it works</span><span class="zh">使用流程</span><span class="de">So funktioniert's</span></a>
       <div class="langs" role="group" aria-label="Language"><button type="button" data-l="en" lang="en">EN</button><button type="button" data-l="de" lang="de">DE</button><button type="button" data-l="zh" lang="zh">中文</button></div>
-      <a class="btn nav-cta" href="#join"><span class="en">Join the waitlist</span><span class="zh">加入候补名单</span><span class="de">Auf die Warteliste</span></a>
+      <a class="btn nav-cta" href="#join"><span class="en">Join the waitlist</span><span class="zh">加入等候名单</span><span class="de">Auf die Warteliste</span></a>
     </nav>
   </div>
 </header>
@@ -201,7 +201,7 @@
           <span class="de">wumo.ai verbindet Sie an einem Ort mit vielen Weltmodellen und Physik-Engines. Bauen Sie 3D-Szenen, testen Sie Produkte, Maschinen und Materialien, planen Sie Straßen und Plätze und wechseln Sie die Engine, wann immer Sie wollen.</span>
         </p>
         <div class="cta-row">
-          <a class="btn" href="#join"><span class="en">Join the waitlist</span><span class="zh">加入候补名单</span><span class="de">Auf die Warteliste</span></a>
+          <a class="btn" href="#join"><span class="en">Join the waitlist</span><span class="zh">加入等候名单</span><span class="de">Auf die Warteliste</span></a>
           <a class="btn ghost" href="#simulate"><span class="en">See what you can simulate</span><span class="zh">看看能模拟什么</span><span class="de">Anwendungen ansehen</span></a>
         </div>
       </div>
@@ -338,7 +338,7 @@
           <option value="urban" data-en="Urban design" data-de="Stadtplanung" data-zh="城市设计">Urban design</option>
           <option value="exhibitions" data-en="Exhibitions and spatial design" data-de="Ausstellungen und Raumgestaltung" data-zh="展览与空间设计">Exhibitions and spatial design</option>
         </select>
-        <button class="btn" type="submit"><span class="en">Join the waitlist</span><span class="zh">加入候补名单</span><span class="de">Auf die Warteliste</span></button>
+        <button class="btn" type="submit"><span class="en">Join the waitlist</span><span class="zh">加入等候名单</span><span class="de">Auf die Warteliste</span></button>
         <p class="msg" id="joinMsg" role="status"></p>
       </form>
     </div>
@@ -427,7 +427,7 @@
       try{await fetch(ep,{method:'POST',headers:{'Accept':'application/json'},body:new FormData(form)});}
       catch(e){msg.textContent=T({en:'Sign-up didn\u2019t go through. Check your connection and try again.',de:'Die Anmeldung ist nicht durchgegangen. Prüfen Sie Ihre Verbindung und versuchen Sie es erneut.',zh:'没有发送成功，请检查网络后重试。'});return;}
     }
-    msg.textContent=T({en:'You\u2019re on the waitlist. We\u2019ll email you when early access opens.',de:'Sie stehen auf der Warteliste. Wir schreiben Ihnen, sobald der frühe Zugang startet.',zh:'已加入候补名单。开放体验时我们会发邮件通知你。'});
+    msg.textContent=T({en:'You\u2019re on the waitlist. We\u2019ll email you when early access opens.',de:'Sie stehen auf der Warteliste. Wir schreiben Ihnen, sobald der frühe Zugang startet.',zh:'已加入等候名单。开放体验时我们会发邮件通知你。'});
     form.reset();
   });
 
