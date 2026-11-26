@@ -1,6 +1,6 @@
 # wumo.ai
 
-Landing page for **wumo.ai (物模)**: one window onto many world models for 3D scenes, mechanics, materials, industrial products and urban simulation.
+Landing page for **WuMo (物模)**, hosted at wumo.ai: one window onto many world models for 3D scenes, mechanics, materials, industrial products and urban simulation.
 
 - `index.html`: self-contained landing page (EN / DE / 中文), no build step
 - `assets/logo/`: logo and icon in SVG (light, dark, mono) plus a preview sheet

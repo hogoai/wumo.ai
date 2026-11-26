@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>wumo.ai — Understand. Simulate. Optimize.</title>
-<meta name="description" content="WuMo.ai is developing an AI-native physical computing platform combining engineering knowledge, physics engines and world models. Understand. Simulate. Optimize.">
+<title>WuMo — Understand. Simulate. Optimize.</title>
+<meta name="description" content="WuMo is developing an AI-native physical computing platform combining engineering knowledge, physics engines and world models. Understand. Simulate. Optimize.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' width='256' height='256'><title>wumo</title><rect width='64' height='64' rx='14' fill='%230F2A25'/><path fill='%23F2C14E' d='M32 32V13A19 19 0 0 1 51 32ZM32 32V51A19 19 0 0 1 13 32Z'/><circle cx='32' cy='32' r='19' fill='none' stroke='%23F2F5F3' stroke-width='4'/><path d='M32 6V58M6 32H58' stroke='%23F2F5F3' stroke-width='3'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -202,8 +202,8 @@
 
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="#" aria-label="wumo.ai home">
-      <svg class="wordmark" viewBox="-2 -8 211 57" height="25" role="img" aria-label="wumo"><g fill="none" stroke="#F2F5F3" stroke-width="9" stroke-linecap="butt" stroke-linejoin="round"><path d="M4.5 0V29A11 11 0 0 0 26.5 29A11 11 0 0 0 48.5 29V0M26.5 29V0"/><path d="M64.5 0V29A11 11 0 0 0 86.5 29M86.5 0V44.5"/><path d="M102.5 44.5V11A11 11 0 0 1 124.5 11V44.5M124.5 11A11 11 0 0 1 146.5 11V44.5"/><circle cx="182.5" cy="20" r="20"/></g><path fill="#F2C14E" d="M182.5 20V4.5A15.5 15.5 0 0 1 198 20ZM182.5 20V35.5A15.5 15.5 0 0 1 167 20Z"/></svg><span>物模</span>
+    <a class="brand" href="#" aria-label="WuMo home">
+      <svg class="wordmark" viewBox="-2 -8 211 57" height="25" role="img" aria-label="WuMo"><g fill="none" stroke="#F2F5F3" stroke-width="9" stroke-linecap="butt" stroke-linejoin="round"><path d="M4.5 0V29A11 11 0 0 0 26.5 29A11 11 0 0 0 48.5 29V0M26.5 29V0"/><path d="M64.5 0V29A11 11 0 0 0 86.5 29M86.5 0V44.5"/><path d="M102.5 44.5V11A11 11 0 0 1 124.5 11V44.5M124.5 11A11 11 0 0 1 146.5 11V44.5"/><circle cx="182.5" cy="20" r="20"/></g><path fill="#F2C14E" d="M182.5 20V4.5A15.5 15.5 0 0 1 198 20ZM182.5 20V35.5A15.5 15.5 0 0 1 167 20Z"/></svg><span>物模</span>
     </a>
     <nav class="nav" aria-label="Main">
       <a href="#simulate"><span class="en">Applications</span><span class="zh">应用领域</span><span class="de">Anwendungen</span></a>
@@ -281,7 +281,7 @@
         <div class="sw-list" role="tablist" aria-label="World model types" id="swList"></div>
         <div class="sw-panel" role="tabpanel" id="swPanel" aria-live="polite"></div>
       </div>
-      <p class="byok"><span class="en">Integrations will include NumPy, SciPy, PyNite, pvlib, FLORIS and specialist solvers, plus the option to connect your own API keys.</span><span class="zh">将集成 NumPy、SciPy、PyNite、pvlib、FLORIS 及专业求解器，并支持接入你自己的 API Key。</span><span class="de">Geplant sind Anbindungen an NumPy, SciPy, PyNite, pvlib, FLORIS und spezialisierte Solver sowie die Nutzung eigener API-Schlüssel.</span></p>
+      <p class="byok"><span class="en">Integrations will cover numerical libraries, structural (FEM) and fluid (CFD) solvers, wind and solar models, and widely used world-model APIs. You will also be able to connect your own API keys.</span><span class="zh">将接入数值计算库、结构有限元（FEM）与流体（CFD）求解器、风电与光伏模型，以及主流世界模型 API，并支持接入你自己的 API Key。</span><span class="de">Geplant sind Anbindungen an numerische Bibliotheken, Struktur- (FEM) und Strömungslöser (CFD), Wind- und Solarmodelle sowie gängige Weltmodell-APIs. Eigene API-Schlüssel lassen sich ebenfalls nutzen.</span></p>
     </div>
   </section>
 
@@ -320,7 +320,7 @@
 
 <footer>
   <div class="wrap">
-    <span>© 2026 wumo.ai</span>
+    <span>© 2026 WuMo</span>
     <span><span class="en">Made in Germany</span><span class="zh">德国研发</span><span class="de">Entwickelt in Deutschland</span></span>
   </div>
 </footer>
@@ -337,7 +337,7 @@
   function applyLang(){
     root.dataset.lang=lang;root.lang=lang==='zh'?'zh-CN':lang;
     langBtns.forEach(b=>b.setAttribute('aria-pressed',b.dataset.l===lang));
-    document.title=T({en:'wumo.ai — Understand. Simulate. Optimize.',de:'wumo.ai — Verstehen. Simulieren. Optimieren.',zh:'wumo.ai 物模 — 理解·模拟·优化物理世界'});
+    document.title=T({en:'WuMo — Understand. Simulate. Optimize.',de:'WuMo — Verstehen. Simulieren. Optimieren.',zh:'WuMo 物模 — 理解·模拟·优化物理世界'});
     document.querySelectorAll('option[data-en]').forEach(o=>o.textContent=o.dataset[lang]);
     document.querySelectorAll('[data-ph-en]').forEach(i=>i.placeholder=i.dataset['ph'+lang[0].toUpperCase()+lang[1]]);
     renderPanel();
