@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>wumo.ai: simulate the physical world</title>
-<meta name="description" content="wumo.ai is one window onto many world models: 3D scenes, mechanics, materials and urban simulation. Choose and switch engines without changing your workflow.">
+<title>wumo.ai — Understand. Simulate. Optimize.</title>
+<meta name="description" content="WuMo.ai is developing an AI-native physical computing platform combining engineering knowledge, physics engines and world models. Understand. Simulate. Optimize.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' width='256' height='256'><title>wumo</title><rect width='64' height='64' rx='14' fill='%230F2A25'/><path fill='%23F2C14E' d='M32 32V13A19 19 0 0 1 51 32ZM32 32V51A19 19 0 0 1 13 32Z'/><circle cx='32' cy='32' r='19' fill='none' stroke='%23F2F5F3' stroke-width='4'/><path d='M32 6V58M6 32H58' stroke='%23F2F5F3' stroke-width='3'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -166,6 +166,36 @@
 
   footer{padding:32px 0;border-top:1px solid var(--rule);font-size:.9rem;color:var(--ink-2)}
   footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+  /* Landing Page V1.1: engineering platform positioning */
+  .eyebrow,.section-kicker{font-size:.77rem;letter-spacing:.14em;font-weight:800;text-transform:uppercase;color:var(--cool);margin-bottom:20px}
+  h1 em{font-style:normal;color:var(--cool)}
+  .hero{padding-top:96px}.hero .wrap{gap:64px}
+  .capabilities{background:#122D29;color:var(--paper-hi)}
+  .capabilities h2{color:var(--paper-hi)}.capabilities .intro{color:#B9CCC5}
+  .capabilities .section-kicker,.architecture .section-kicker{color:#F2C14E}
+  .cap-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+  .cap-grid article{padding:30px;background:#1B4138;border:1px solid #45655B}
+  .cap-grid h3{margin:12px 0;font-size:1.28rem}.cap-grid p{margin:0;color:#C4D8D0;font-size:.98rem}
+  .cap-icon{font-size:1.65rem;letter-spacing:-.03em;color:var(--warm);font-weight:800}
+  .app-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+  .app-card{min-height:260px;display:flex;flex-direction:column;background:var(--paper-hi);border:1.5px solid var(--ink);padding:24px;box-shadow:4px 4px 0 #BBC8C2}
+  .app-card h3{font-size:1.5rem;margin:14px 0 0;letter-spacing:-.02em;line-height:1.15}
+  .app-card p{color:var(--ink-2);font-size:.96rem;margin:14px 0 24px}
+  .app-sub{font-size:.86rem;color:var(--cool);font-weight:700;margin-top:8px}
+  .app-number{font-size:.73rem;letter-spacing:.12em;font-weight:800;color:var(--ink-2)}
+  .app-status{font-size:.78rem;color:var(--ink-2);border-top:1px solid var(--rule);padding-top:12px;margin-top:auto}
+  .architecture{background:#122D29;color:var(--paper-hi)}.architecture h2{color:white}.architecture .intro{color:#B9CCC5}
+  .arch-stack{max-width:860px;margin:auto;text-align:center}.arch-stack small{display:block;color:#B5D3C9;font-size:.72rem;letter-spacing:.1em;margin-bottom:8px}
+  .arch-stack strong{display:block;font-size:1.18rem;line-height:1.3}.arch-stack span{display:block;font-size:.9rem;color:#C4D8D0;margin-top:6px}
+  .arch-top,.arch-ai,.arch-base,.arch-pair>div{border:1px solid #68887C;background:#1B4138;padding:22px;border-radius:4px}
+  .arch-ai{border-color:var(--warm)}.arch-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px}.arch-pair>div{border-color:#5F9DA8}
+  .arch-link{color:var(--warm);font-size:1.4rem;line-height:36px}.scope-note{color:#B9CCC5;font-size:.88rem;margin:20px auto 0;max-width:800px;text-align:center}
+  .steps{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:30px}.step:nth-child(4){padding-left:0;border-left:none}.step:nth-child(n+4){border-top:1px solid var(--rule);padding-top:24px}
+  .knowledge{background:#DCE7E1}.knowledge-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.knowledge-grid>div{border-top:2px solid var(--ink);padding-top:16px}.knowledge-grid h3{font-size:1.3rem;margin:0 0 12px}.knowledge-grid p{color:var(--ink-2);font-size:.98rem}
+  @media(max-width:980px){.app-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:820px){.cap-grid,.knowledge-grid{grid-template-columns:1fr}.steps{grid-template-columns:repeat(2,1fr)}.step:nth-child(3){padding-left:0;border-left:none}.step:nth-child(4){padding-left:24px;border-left:1px solid var(--rule)}.step:nth-child(n+3){border-top:1px solid var(--rule);padding-top:24px}}
+  @media(max-width:560px){.app-grid,.arch-pair,.steps{grid-template-columns:1fr}.step,.step:nth-child(4){padding-left:0;border-left:none}.step:nth-child(n+2){border-top:1px solid var(--rule);padding-top:24px}.hero{padding-top:52px}.app-card{min-height:220px}}
 </style>
 </head>
 <body>
@@ -176,9 +206,10 @@
       <svg class="wordmark" viewBox="-2 -8 211 57" height="25" role="img" aria-label="wumo"><g fill="none" stroke="#F2F5F3" stroke-width="9" stroke-linecap="butt" stroke-linejoin="round"><path d="M4.5 0V29A11 11 0 0 0 26.5 29A11 11 0 0 0 48.5 29V0M26.5 29V0"/><path d="M64.5 0V29A11 11 0 0 0 86.5 29M86.5 0V44.5"/><path d="M102.5 44.5V11A11 11 0 0 1 124.5 11V44.5M124.5 11A11 11 0 0 1 146.5 11V44.5"/><circle cx="182.5" cy="20" r="20"/></g><path fill="#F2C14E" d="M182.5 20V4.5A15.5 15.5 0 0 1 198 20ZM182.5 20V35.5A15.5 15.5 0 0 1 167 20Z"/></svg><span>物模</span>
     </a>
     <nav class="nav" aria-label="Main">
-      <a href="#simulate"><span class="en">What you can simulate</span><span class="zh">应用领域</span><span class="de">Anwendungen</span></a>
-      <a href="#engines"><span class="en">World models</span><span class="zh">世界模型</span><span class="de">Weltmodelle</span></a>
-      <a href="#how"><span class="en">How it works</span><span class="zh">使用流程</span><span class="de">So funktioniert's</span></a>
+      <a href="#simulate"><span class="en">Applications</span><span class="zh">应用领域</span><span class="de">Anwendungen</span></a>
+      <a href="#architecture"><span class="en">Technology</span><span class="zh">技术架构</span><span class="de">Technologie</span></a>
+      <a href="#engines"><span class="en">Engine Hub</span><span class="zh">引擎中心</span><span class="de">Engine-Hub</span></a>
+      <a href="#how"><span class="en">Workflow</span><span class="zh">工作流程</span><span class="de">Ablauf</span></a>
       <div class="langs" role="group" aria-label="Language"><button type="button" data-l="en" lang="en">EN</button><button type="button" data-l="de" lang="de">DE</button><button type="button" data-l="zh" lang="zh">中文</button></div>
       <a class="btn nav-cta" href="#join"><span class="en">Join the waitlist</span><span class="zh">加入等候名单</span><span class="de">Auf die Warteliste</span></a>
     </nav>
@@ -190,19 +221,12 @@
   <div class="hero">
     <div class="wrap">
       <div>
-        <h1>
-          <span class="en">Simulate the physical world from one window.</span>
-          <span class="zh">一个窗口，<br><span style="white-space:nowrap">模拟真实物理世界。</span></span>
-          <span class="de">Die physische Welt in einem Fenster simulieren.</span>
-        </h1>
-        <p class="lede">
-          <span class="en">wumo.ai connects you to many world models and physics engines in one place. Build 3D scenes, test products, machines and materials, plan streets and squares, and switch engines whenever you like.</span>
-          <span class="zh">wumo.ai 把多种世界模型和物理引擎接入同一个平台。搭建三维场景、测试产品与设备的受力和材料、推演城市空间，并随时切换不同的模型引擎。</span>
-          <span class="de">wumo.ai verbindet Sie an einem Ort mit vielen Weltmodellen und Physik-Engines. Bauen Sie 3D-Szenen, testen Sie Produkte, Maschinen und Materialien, planen Sie Straßen und Plätze und wechseln Sie die Engine, wann immer Sie wollen.</span>
-        </p>
+        <div class="eyebrow">AI-NATIVE PHYSICAL COMPUTING · LANDING PAGE V1.1</div>
+        <h1><span class="en">Understand.<br>Simulate.<br><em>Optimize.</em></span><span class="zh">理解物理世界。<br>模拟物理世界。<br><em>优化物理世界。</em></span><span class="de">Verstehen.<br>Simulieren.<br><em>Optimieren.</em></span></h1>
+        <p class="lede"><span class="en">Intelligence for the physical world. WuMo brings AI, numerical physics, world models and engineering knowledge into one workspace — from an idea to better engineering decisions.</span><span class="zh">面向物理世界的人工智能。物模将 AI、数值物理计算、世界模型与工程知识整合在统一工作空间中，帮助用户从创意走向更好的工程决策。</span><span class="de">Intelligenz für die physische Welt. WuMo vereint KI, numerische Physik, Weltmodelle und Ingenieurwissen in einem Arbeitsbereich — von der Idee zur besseren technischen Entscheidung.</span></p>
         <div class="cta-row">
           <a class="btn" href="#join"><span class="en">Join the waitlist</span><span class="zh">加入等候名单</span><span class="de">Auf die Warteliste</span></a>
-          <a class="btn ghost" href="#simulate"><span class="en">See what you can simulate</span><span class="zh">看看能模拟什么</span><span class="de">Anwendungen ansehen</span></a>
+          <a class="btn ghost" href="#simulate"><span class="en">Explore applications</span><span class="zh">探索工程应用</span><span class="de">Anwendungen entdecken</span></a>
         </div>
       </div>
 
@@ -218,8 +242,8 @@
           </div>
           <canvas id="sim" aria-label="Interactive cantilever beam simulation. Drag the beam to load it."></canvas>
           <div class="vp-foot">
-            <div><div class="rd-k"><span class="en">Tip deflection</span><span class="zh">端部挠度</span><span class="de">Enddurchbiegung</span></div><div class="rd-v" id="rdDefl">0 mm</div></div>
-            <div><div class="rd-k"><span class="en">Peak strain</span><span class="zh">最大应变</span><span class="de">Max. Dehnung</span></div><div class="rd-v" id="rdStrain">0.0 %</div></div>
+            <div><div class="rd-k"><span class="en">Illustrative displacement</span><span class="zh">示意位移</span><span class="de">Illustr. Auslenkung</span></div><div class="rd-v" id="rdDefl">0 mm</div></div>
+            <div><div class="rd-k"><span class="en">Relative mesh stretch</span><span class="zh">网格相对伸长</span><span class="de">Rel. Netzdehnung</span></div><div class="rd-v" id="rdStrain">0.0 %</div></div>
             <div><div class="rd-k"><span class="en">Mesh nodes</span><span class="zh">网格节点</span><span class="de">Netzknoten</span></div><div class="rd-v" id="rdNodes">0</div></div>
             <div>
               <div class="rd-k"><span class="en">Strain</span><span class="zh">应变</span><span class="de">Dehnung</span></div>
@@ -228,95 +252,44 @@
             </div>
           </div>
         </div>
-        <p class="vp-note">
-          <span class="en">Drag the beam to load it, then swap the material. This demo runs in your browser; on wumo.ai the same scene can be sent to different world models.</span>
-          <span class="zh">拖动悬臂梁给它加载，再切换材料试试。这个演示在你的浏览器里运行；在 wumo.ai 上，同一个场景可以交给不同的世界模型来计算。</span>
-          <span class="de">Ziehen Sie am Balken, um ihn zu belasten, und wechseln Sie dann das Material. Die Demo läuft in Ihrem Browser; auf wumo.ai lässt sich dieselbe Szene an verschiedene Weltmodelle senden.</span>
-        </p>
+        <p class="vp-note"><span class="en">Interactive browser demonstration: a qualitative spring-mesh animation, not a validated FEM solver or certified engineering calculation. Drag the beam and switch presets to explore deformation.</span><span class="zh">浏览器内交互演示：采用弹簧网格近似动画，不是经过验证的有限元求解器，也不能用于正式工程验算。可拖动悬臂梁并切换预设观察变形。</span><span class="de">Interaktive Browser-Demo: qualitative Feder-Netz-Animation, kein validierter FEM-Solver und keine prüffähige Statik. Balken ziehen und Materialvoreinstellungen wechseln.</span></p>
       </div>
     </div>
   </div>
 
-  <!-- DOMAINS -->
-  <section id="simulate">
-    <div class="wrap">
-      <h2><span class="en">Built for everything that has weight, light and space.</span><span class="zh">凡是有重量、光线和空间的，都能模拟。</span><span class="de">Für alles, was Gewicht, Licht und Raum hat.</span></h2>
-      <p class="intro"><span class="en">For anyone who needs to know how something will look and behave before it is built or made.</span><span class="zh">适用于所有需要在建造或制造之前，就知道“它会是什么样、会怎样表现”的人。</span><span class="de">Für alle, die wissen müssen, wie etwas aussieht und sich verhält, bevor es gebaut oder gefertigt wird.</span></p>
+  <!-- CAPABILITIES -->
+  <section class="capabilities" id="capabilities"><div class="wrap"><div class="section-kicker">01 / PLATFORM VISION</div><h2><span class="en">Three capabilities. One engineering workspace.</span><span class="zh">三种核心能力，一个工程工作空间。</span><span class="de">Drei Fähigkeiten. Ein Engineering-Arbeitsbereich.</span></h2><p class="intro"><span class="en">WuMo is being designed to connect physical understanding, simulation and optimization — rather than just switching between model APIs.</span><span class="zh">WuMo 的目标不仅是切换模型 API，而是连接物理理解、工程仿真与方案优化。</span><span class="de">WuMo soll physikalisches Verständnis, Simulation und Optimierung verbinden – nicht nur zwischen Modell-APIs wechseln.</span></p><div class="cap-grid"><article><div class="cap-icon">AI</div><h3>AI Intelligence</h3><p><span class="en">Interpret problems, structure parameters and explain the assumptions and results.</span><span class="zh">理解工程问题、整理参数、解释假设与结果。</span><span class="de">Probleme interpretieren, Parameter strukturieren, Annahmen und Ergebnisse erklären.</span></p></article><article><div class="cap-icon">ƒ(x)</div><h3>Physics Engines</h3><p><span class="en">Solve physics equations with numerical methods and explicit boundary conditions.</span><span class="zh">以数值方法和明确的边界条件求解物理方程。</span><span class="de">Physikalische Gleichungen mit numerischen Methoden und definierten Randbedingungen lösen.</span></p></article><article><div class="cap-icon">3D</div><h3>World Models</h3><p><span class="en">Represent spaces and physical states, explore scenarios and visualize change.</span><span class="zh">表达空间与物理状态，探索场景并可视化变化。</span><span class="de">Räume und physische Zustände abbilden, Szenarien untersuchen und Veränderungen visualisieren.</span></p></article></div></div></section>
 
-      <div class="domains">
-        <div class="domain">
-          <h3><span class="swatch" style="background:var(--cool)"></span><span class="en">3D scenes and real-world settings</span><span class="zh">三维效果与真实场景</span><span class="de">3D-Szenen und reale Umgebungen</span></h3>
-          <p><span class="en">Turn a sketch, a photo or a floor plan into an explorable 3D space with believable light, shadow and movement.</span><span class="zh">把草图、照片或平面图变成可漫游的三维空间，光影与运动都真实可信。</span><span class="de">Machen Sie aus einer Skizze, einem Foto oder einem Grundriss einen begehbaren 3D-Raum mit glaubwürdigem Licht, Schatten und Bewegung.</span></p>
-          <p class="eg"><span class="en">Walk-throughs, product renders, site previews</span><span class="zh">空间漫游、产品渲染、场地预览</span><span class="de">Rundgänge, Produkt-Renderings, Standortvorschauen</span></p>
-        </div>
-        <div class="domain">
-          <h3><span class="swatch" style="background:#3E7C8C"></span><span class="en">Industrial products and machinery</span><span class="zh">工业产品与机电设备</span><span class="de">Industrieprodukte und Maschinen</span></h3>
-          <p><span class="en">From everyday products to large electromechanical equipment such as wind turbines: test strength, fatigue, heat, vibration and airflow on the digital model, before the first prototype.</span><span class="zh">从日常工业产品到风电机组等大型机电设备：在做出第一台样机之前，先在数字模型上测试强度、疲劳、散热、振动与气流。</span><span class="de">Vom Alltagsprodukt bis zur großen elektromechanischen Anlage wie einer Windenergieanlage: Prüfen Sie Festigkeit, Ermüdung, Wärme, Schwingungen und Strömung am digitalen Modell, noch vor dem ersten Prototyp.</span></p>
-          <p class="eg"><span class="en">Housing drop tests, gearbox vibration, rotor blade loads</span><span class="zh">外壳跌落测试、齿轮箱振动、风机叶片载荷</span><span class="de">Falltests für Gehäuse, Getriebeschwingungen, Rotorblattlasten</span></p>
-        </div>
-        <div class="domain">
-          <h3><span class="swatch" style="background:var(--hot)"></span><span class="en">Mechanics and structures</span><span class="zh">力学模拟</span><span class="de">Mechanik und Tragwerke</span></h3>
-          <p><span class="en">See how forces travel through any object, from a single part to an assembly, a building or a vehicle. Check stress, deformation, stability and weak points under real loads.</span><span class="zh">看清力在任何物体中的传递，从单个零件到装配体、建筑或车辆。检查真实荷载下的应力、变形、稳定性与薄弱点。</span><span class="de">Sehen Sie, wie Kräfte durch jedes Objekt wandern, vom einzelnen Bauteil über Baugruppen bis zu Gebäuden oder Fahrzeugen. Prüfen Sie Spannung, Verformung, Stabilität und Schwachstellen unter realen Lasten.</span></p>
-          <p class="eg"><span class="en">Bridge under traffic, chair under load, bracket stress</span><span class="zh">桥梁通行荷载、椅子承重、支架应力</span><span class="de">Brücke unter Verkehrslast, belasteter Stuhl, Spannung in einer Halterung</span></p>
-        </div>
-        <div class="domain">
-          <h3><span class="swatch" style="background:var(--warm)"></span><span class="en">Materials</span><span class="zh">材料模拟</span><span class="de">Materialien</span></h3>
-          <p><span class="en">Compare how steel, timber, glass, fabric or foam bend, drape, crack and age, before you order a sample.</span><span class="zh">在订购样品之前，比较钢、木、玻璃、织物或泡沫的弯曲、垂坠、开裂与老化。</span><span class="de">Vergleichen Sie, wie sich Stahl, Holz, Glas, Stoff oder Schaum biegen, fallen, reißen und altern, bevor Sie ein Muster bestellen.</span></p>
-          <p class="eg"><span class="en">Fabric drape, panel thickness, heat behaviour</span><span class="zh">织物垂坠、板材厚度、受热表现</span><span class="de">Stofffall, Plattenstärke, Wärmeverhalten</span></p>
-        </div>
-        <div class="domain">
-          <h3><span class="swatch" style="background:var(--ink)"></span><span class="en">Urban design</span><span class="zh">城市设计</span><span class="de">Stadtplanung</span></h3>
-          <p><span class="en">Model streets, squares and districts: sunlight across the year, wind between buildings, how people move.</span><span class="zh">推演街道、广场与街区：全年日照、楼宇间的风环境、人流的走向。</span><span class="de">Modellieren Sie Straßen, Plätze und Quartiere: Sonnenlicht übers Jahr, Wind zwischen Gebäuden, Bewegung von Menschen.</span></p>
-          <p class="eg"><span class="en">Shadow studies, pedestrian flow, wind comfort</span><span class="zh">日照分析、人流模拟、风舒适度</span><span class="de">Verschattungsstudien, Fußgängerströme, Windkomfort</span></p>
-        </div>
-        <div class="domain">
-          <h3><span class="swatch" style="background:#6E8F86"></span><span class="en">Exhibitions and spatial design</span><span class="zh">展览与空间设计</span><span class="de">Ausstellungen und Raumgestaltung</span></h3>
-          <p><span class="en">Plan stands and shows end to end: visitor flow, sightlines, lighting and the structure that holds it all up.</span><span class="zh">从头到尾规划展台和展览：观众动线、视线、灯光，以及支撑这一切的结构。</span><span class="de">Planen Sie Stände und Ausstellungen von Anfang bis Ende: Besucherführung, Sichtachsen, Licht und die Konstruktion, die alles trägt.</span></p>
-          <p class="eg"><span class="en">Trade-fair stands, museum rooms, pop-ups</span><span class="zh">展会展台、博物馆展厅、快闪空间</span><span class="de">Messestände, Museumsräume, Pop-ups</span></p>
-        </div>
-      </div>
-    </div>
-  </section>
+  <!-- APPLICATIONS -->
+  <section id="simulate"><div class="wrap"><div class="section-kicker">02 / ENGINEERING APPLICATIONS</div><h2><span class="en">From physics to real-world solutions.</span><span class="zh">从物理计算到真实工程应用。</span><span class="de">Von der Physik zu realen Lösungen.</span></h2><p class="intro"><span class="en">Six application directions built around measurable engineering value. These are product roadmap areas, not claims of currently available solvers.</span><span class="zh">围绕可衡量的工程价值规划六大应用方向。以下是产品路线图，并不表示相应求解器已经上线。</span><span class="de">Sechs Anwendungsrichtungen mit messbarem technischem Nutzen. Dies sind Produktpläne, keine bereits verfügbaren Solver.</span></p><div class="app-grid"><article class="app-card"><div class="app-number">01 / APPLICATION</div><h3>WuMo Mechanics</h3><div class="app-sub"><span class="en">Structural mechanics</span><span class="zh">结构力学</span><span class="de">Strukturmechanik</span></div><p><span class="en">Structural and mechanical analysis — beams, frames, loads, deformation and stability.</span><span class="zh">结构与机械分析：梁、框架、荷载、变形与稳定性。</span><span class="de">Struktur- und Mechanikanalyse: Balken, Rahmen, Lasten, Verformung und Stabilität.</span></p><span class="app-status"><span class="en">Planned application</span><span class="zh">规划中的应用</span><span class="de">Geplante Anwendung</span></span></article>
+<article class="app-card"><div class="app-number">02 / APPLICATION</div><h3>WuMo Energy</h3><div class="app-sub"><span class="en">Energy</span><span class="zh">能源工程</span><span class="de">Energietechnik</span></div><p><span class="en">Wind-farm layouts, wake analysis, photovoltaic yield and system optimization.</span><span class="zh">风电场布局、尾流分析、光伏发电量与系统优化。</span><span class="de">Windparkplanung, Nachlaufanalyse, PV-Erträge und Systemoptimierung.</span></p><span class="app-status"><span class="en">Planned application</span><span class="zh">规划中的应用</span><span class="de">Geplante Anwendung</span></span></article>
+<article class="app-card"><div class="app-number">03 / APPLICATION</div><h3>WuMo Materials</h3><div class="app-sub"><span class="en">Materials</span><span class="zh">材料科学</span><span class="de">Materialwissenschaft</span></div><p><span class="en">Material selection, property comparisons and research workflows.</span><span class="zh">材料选择、性能比较与材料研究工作流。</span><span class="de">Materialauswahl, Eigenschaftsvergleich und Forschungsabläufe.</span></p><span class="app-status"><span class="en">Planned application</span><span class="zh">规划中的应用</span><span class="de">Geplante Anwendung</span></span></article>
+<article class="app-card"><div class="app-number">04 / APPLICATION</div><h3>WuMo Industrial</h3><div class="app-sub"><span class="en">Industrial</span><span class="zh">工业产品</span><span class="de">Industrieprodukte</span></div><p><span class="en">Product and machinery design, mechanical loads, thermal and vibration studies.</span><span class="zh">工业产品与设备设计、机械载荷、热分析和振动研究。</span><span class="de">Produkt- und Maschinenentwicklung, Lasten, Wärme- und Schwingungsanalysen.</span></p><span class="app-status"><span class="en">Planned application</span><span class="zh">规划中的应用</span><span class="de">Geplante Anwendung</span></span></article>
+<article class="app-card"><div class="app-number">05 / APPLICATION</div><h3>WuMo Spatial</h3><div class="app-sub"><span class="en">Spatial</span><span class="zh">建筑空间</span><span class="de">Räumliche Planung</span></div><p><span class="en">Built environments, sunlight, wind comfort and spatial scenarios.</span><span class="zh">建筑与城市空间、日照、风舒适度与场景推演。</span><span class="de">Gebaute Umwelt, Sonnenlicht, Windkomfort und Raumszenarien.</span></p><span class="app-status"><span class="en">Planned application</span><span class="zh">规划中的应用</span><span class="de">Geplante Anwendung</span></span></article>
+<article class="app-card"><div class="app-number">06 / APPLICATION</div><h3>WuMo Expo</h3><div class="app-sub"><span class="en">Expo</span><span class="zh">展览工程</span><span class="de">Messebau</span></div><p><span class="en">Exhibition structures, trusses, visitor flow, lighting and spatial planning.</span><span class="zh">展览结构、桁架、观众动线、灯光及空间规划。</span><span class="de">Messestrukturen, Traversen, Besucherströme, Licht und Raumplanung.</span></p><span class="app-status"><span class="en">Planned application</span><span class="zh">规划中的应用</span><span class="de">Geplante Anwendung</span></span></article></div></div></section>
+
+  <!-- ARCHITECTURE -->
+  <section id="architecture" class="architecture"><div class="wrap"><div class="section-kicker">03 / TECHNOLOGY ARCHITECTURE</div><h2><span class="en">Two engines. One intelligence.</span><span class="zh">双引擎，一个智能中枢。</span><span class="de">Zwei Engines. Eine Intelligenz.</span></h2><p class="intro"><span class="en">An AI layer coordinates physics solvers and world models, grounded by engineering knowledge and verifiable assumptions.</span><span class="zh">由 AI 协调物理求解器与世界模型，并通过工程知识和可检查的假设建立可靠基础。</span><span class="de">Eine KI-Ebene koordiniert Physik-Solver und Weltmodelle, gestützt auf Ingenieurwissen und überprüfbare Annahmen.</span></p><div class="arch-stack"><div class="arch-top"><small>APPLICATION LAYER</small><strong>Mechanics · Energy · Materials · Industrial · Spatial · Expo</strong></div><div class="arch-link">↓</div><div class="arch-ai"><small>INTELLIGENCE LAYER</small><strong>AI Orchestration</strong><span><span class="en">Problem understanding · Parameter selection · Result analysis</span><span class="zh">问题理解 · 参数选择 · 结果分析</span><span class="de">Problemverständnis · Parameterauswahl · Ergebnisanalyse</span></span></div><div class="arch-link">↓</div><div class="arch-pair"><div><small>NUMERICAL PHYSICS</small><strong>Physics Engines</strong><span>Mechanics · FEM · CFD · Energy</span></div><div><small>PHYSICAL SCENE INTELLIGENCE</small><strong>World Models</strong><span>3D · Dynamics · Prediction</span></div></div><div class="arch-link">↓</div><div class="arch-base"><strong>Engineering Knowledge & Validation</strong><span><span class="en">Materials · Engineering standards · Equations · Benchmarks</span><span class="zh">材料 · 工程标准 · 物理方程 · 基准测试</span><span class="de">Materialien · Normen · Gleichungen · Benchmarks</span></span></div></div><p class="scope-note"><span class="en">Architecture vision: components shown here are planned capabilities unless specifically marked as live.</span><span class="zh">架构愿景：除明确注明已上线的部分外，图中均为规划能力。</span><span class="de">Architekturvision: Dargestellte Komponenten sind geplant, sofern nicht ausdrücklich als live gekennzeichnet.</span></p></div></section>
 
   <!-- ENGINES -->
   <section id="engines" style="padding-top:24px">
     <div class="wrap">
-      <h2><span class="en">One interface. Many world models.</span><span class="zh">一个界面，接入多种世界模型。</span><span class="de">Eine Oberfläche. Viele Weltmodelle.</span></h2>
-      <p class="intro"><span class="en">Every model is good at something different. wumo.ai connects to several of them behind the scenes, so you pick the right one for each task and switch without rebuilding your scene.</span><span class="zh">每种模型各有所长。wumo.ai 在后台接入多个模型 API，你可以为每项任务选择最合适的那一个，切换时无需重建场景。</span><span class="de">Jedes Modell hat andere Stärken. wumo.ai bindet im Hintergrund mehrere davon an. So wählen Sie für jede Aufgabe das passende und wechseln, ohne Ihre Szene neu aufzubauen.</span></p>
+      <div class="section-kicker">04 / ENGINE HUB</div><h2><span class="en">Choose the right computational approach.</span><span class="zh">根据问题选择正确的计算方法。</span><span class="de">Den passenden Berechnungsweg wählen.</span></h2>
+      <p class="intro"><span class="en">Compare model families and solver approaches. The selector below is an explanatory overview, not a live engine integration.</span><span class="zh">比较模型与求解方法。下方选择器用于介绍技术类别，并非已经接通的实时引擎。</span><span class="de">Vergleichen Sie Modellfamilien und Solver-Ansätze. Die Auswahl unten dient der Erklärung und ist keine aktive Engine-Integration.</span></p>
 
       <div class="switcher">
         <div class="sw-list" role="tablist" aria-label="World model types" id="swList"></div>
         <div class="sw-panel" role="tabpanel" id="swPanel" aria-live="polite"></div>
       </div>
-      <p class="byok"><span class="en">Already have an account with a model provider? Add your own API key and use it inside wumo.ai.</span><span class="zh">已经有模型服务商的账号？填入你自己的 API Key，就能直接在 wumo.ai 里使用。</span><span class="de">Sie haben schon ein Konto bei einem Modellanbieter? Hinterlegen Sie Ihren eigenen API-Schlüssel und nutzen Sie ihn in wumo.ai.</span></p>
+      <p class="byok"><span class="en">Planned integrations include NumPy, SciPy, PyNite, pvlib, FLORIS and specialist solvers. BYOK connections are a roadmap feature, not enabled on this static page.</span><span class="zh">规划集成 NumPy、SciPy、PyNite、pvlib、FLORIS 及专业求解器。BYOK 仍属于路线图功能，当前静态页未启用。</span><span class="de">Geplant sind NumPy, SciPy, PyNite, pvlib, FLORIS und weitere Solver. BYOK ist ein geplantes Feature und auf dieser statischen Seite nicht aktiv.</span></p>
     </div>
   </section>
 
-  <!-- HOW -->
-  <section id="how" style="padding-top:24px">
-    <div class="wrap">
-      <h2><span class="en">From idea to tested scene in four steps.</span><span class="zh">四步，从想法到验证过的场景。</span><span class="de">In vier Schritten von der Idee zur geprüften Szene.</span></h2>
-      <p class="intro"><span class="en">No installation, no simulation background needed.</span><span class="zh">无需安装，也不需要仿真专业背景。</span><span class="de">Keine Installation, keine Simulationskenntnisse nötig.</span></p>
-      <div class="steps">
-        <div class="step">
-          <h3><span class="en">Describe or upload</span><span class="zh">描述或上传</span><span class="de">Beschreiben oder hochladen</span></h3>
-          <p><span class="en">Start from text, a sketch, photos, a floor plan or a 3D file.</span><span class="zh">从一段文字、草图、照片、平面图或三维文件开始。</span><span class="de">Starten Sie mit Text, einer Skizze, Fotos, einem Grundriss oder einer 3D-Datei.</span></p>
-        </div>
-        <div class="step">
-          <h3><span class="en">Choose a model</span><span class="zh">选择模型</span><span class="de">Modell wählen</span></h3>
-          <p><span class="en">wumo.ai suggests one for your task. You can always pick another.</span><span class="zh">wumo.ai 会根据任务推荐模型，你也可以随时换成别的。</span><span class="de">wumo.ai schlägt eines für Ihre Aufgabe vor. Sie können jederzeit ein anderes wählen.</span></p>
-        </div>
-        <div class="step">
-          <h3><span class="en">Run and compare</span><span class="zh">运行与对比</span><span class="de">Ausführen und vergleichen</span></h3>
-          <p><span class="en">Run the same scene on two models and view the results side by side.</span><span class="zh">让同一个场景在两个模型上运行，结果并排对比。</span><span class="de">Lassen Sie dieselbe Szene auf zwei Modellen laufen und vergleichen Sie die Ergebnisse nebeneinander.</span></p>
-        </div>
-        <div class="step">
-          <h3><span class="en">Export and share</span><span class="zh">导出与分享</span><span class="de">Exportieren und teilen</span></h3>
-          <p><span class="en">Download images, video, 3D files or data, or send a link to your client.</span><span class="zh">下载图片、视频、三维文件或数据，或直接发链接给客户。</span><span class="de">Laden Sie Bilder, Videos, 3D-Dateien oder Daten herunter oder schicken Sie Ihrem Kunden einen Link.</span></p>
-        </div>
-      </div>
-    </div>
-  </section>
+  <!-- WORKFLOW -->
+  <section id="how"><div class="wrap"><div class="section-kicker">05 / ENGINEERING WORKFLOW</div><h2><span class="en">From ideas to engineering decisions.</span><span class="zh">从创意到更好的工程决策。</span><span class="de">Von Ideen zu technischen Entscheidungen.</span></h2><p class="intro"><span class="en">Our proposed six-step workflow adds the essential engineering stages of configuration, validation and optimization.</span><span class="zh">规划中的六步工作流明确增加计算配置、验证及优化环节。</span><span class="de">Der geplante Ablauf in sechs Schritten ergänzt Konfiguration, Validierung und Optimierung.</span></p><div class="steps"><div class="step"><h3><span class="en">Describe</span><span class="zh">描述问题</span><span class="de">Beschreiben</span></h3><p><span class="en">Input text, sketches or engineering data.</span><span class="zh">输入文字、草图或工程数据。</span><span class="de">Text, Skizzen oder technische Daten eingeben.</span></p></div><div class="step"><h3><span class="en">Understand</span><span class="zh">理解问题</span><span class="de">Verstehen</span></h3><p><span class="en">Identify geometry, materials, loads and assumptions.</span><span class="zh">识别几何、材料、载荷与假设。</span><span class="de">Geometrie, Materialien, Lasten und Annahmen bestimmen.</span></p></div><div class="step"><h3><span class="en">Configure</span><span class="zh">配置计算</span><span class="de">Konfigurieren</span></h3><p><span class="en">Choose methods, solvers and boundary conditions.</span><span class="zh">选择计算方法、求解器与边界条件。</span><span class="de">Methoden, Solver und Randbedingungen wählen.</span></p></div><div class="step"><h3><span class="en">Simulate</span><span class="zh">运行模拟</span><span class="de">Simulieren</span></h3><p><span class="en">Compute or predict within the selected model scope.</span><span class="zh">在所选模型适用范围内计算或预测。</span><span class="de">Innerhalb des gewählten Modellrahmens rechnen oder prognostizieren.</span></p></div><div class="step"><h3><span class="en">Validate</span><span class="zh">验证结果</span><span class="de">Validieren</span></h3><p><span class="en">Check units, benchmarks, limitations and uncertainty.</span><span class="zh">检查单位、基准、适用边界及不确定性。</span><span class="de">Einheiten, Referenzen, Grenzen und Unsicherheit prüfen.</span></p></div><div class="step"><h3><span class="en">Optimize</span><span class="zh">优化方案</span><span class="de">Optimieren</span></h3><p><span class="en">Compare alternatives and explain engineering trade-offs.</span><span class="zh">比较备选方案并解释工程权衡。</span><span class="de">Alternativen vergleichen und technische Zielkonflikte erläutern.</span></p></div></div></div></section>
+
+  <!-- KNOWLEDGE -->
+  <section id="knowledge" class="knowledge"><div class="wrap"><div class="section-kicker">06 / ENGINEERING RELIABILITY</div><h2><span class="en">Simulation should be explainable, not just impressive.</span><span class="zh">物理模拟不仅要直观，更必须可解释。</span><span class="de">Simulation muss erklärbar sein – nicht nur beeindruckend.</span></h2><div class="knowledge-grid"><div><h3><span class="en">Engineering knowledge</span><span class="zh">工程知识</span><span class="de">Ingenieurwissen</span></h3><p><span class="en">A proposed knowledge layer for material data, formulas, reference cases and applicable standards.</span><span class="zh">规划建立材料参数、物理公式、参考案例及适用工程标准的知识层。</span><span class="de">Geplante Wissensbasis für Materialdaten, Gleichungen, Referenzfälle und Normen.</span></p></div><div><h3><span class="en">Validation first</span><span class="zh">验证优先</span><span class="de">Validierung zuerst</span></h3><p><span class="en">Document input data, boundary conditions, units, numerical method, benchmarks and model limitations.</span><span class="zh">明确记录输入数据、边界条件、单位、数值方法、基准案例和模型局限。</span><span class="de">Eingaben, Randbedingungen, Einheiten, numerische Verfahren, Referenzfälle und Modellgrenzen dokumentieren.</span></p></div><div><h3><span class="en">Honest development status</span><span class="zh">透明的开发状态</span><span class="de">Transparenter Entwicklungsstand</span></h3><p><span class="en">The current website is an early concept and interactive illustration; professional engineering verification will require validated solvers and review.</span><span class="zh">目前网站是早期概念与交互示意；正式工程验证仍需可靠求解器、测试及专业复核。</span><span class="de">Die Website zeigt ein frühes Konzept und eine interaktive Illustration; belastbare Nachweise erfordern validierte Solver und fachliche Prüfung.</span></p></div></div></div></section>
 
   <!-- JOIN -->
   <section class="join" id="join">
@@ -331,11 +304,11 @@
         <input id="email" name="email" type="email" autocomplete="email" required data-ph-en="you@studio.com" data-ph-de="sie@studio.de" data-ph-zh="you@studio.com" placeholder="you@studio.com">
         <label for="usecase"><span class="en">What do you want to simulate?</span><span class="zh">你想模拟什么？</span><span class="de">Was möchten Sie simulieren?</span></label>
         <select id="usecase" name="usecase">
-          <option value="scenes" data-en="3D scenes and real-world settings" data-de="3D-Szenen und reale Umgebungen" data-zh="三维效果与真实场景">3D scenes and real-world settings</option>
+          <option value="energy" data-en="Wind and solar engineering" data-de="Wind- und Solarenergie" data-zh="风电与光伏工程">Wind and solar engineering</option>
           <option value="industrial" data-en="Industrial products and machinery" data-de="Industrieprodukte und Maschinen" data-zh="工业产品与机电设备">Industrial products and machinery</option>
           <option value="mechanics" data-en="Mechanics and structures" data-de="Mechanik und Tragwerke" data-zh="力学模拟">Mechanics and structures</option>
           <option value="materials" data-en="Materials" data-de="Materialien" data-zh="材料模拟">Materials</option>
-          <option value="urban" data-en="Urban design" data-de="Stadtplanung" data-zh="城市设计">Urban design</option>
+          <option value="urban" data-en="Spatial and urban simulation" data-de="Raum- und Stadtsimulation" data-zh="建筑与城市空间模拟">Spatial and urban simulation</option>
           <option value="exhibitions" data-en="Exhibitions and spatial design" data-de="Ausstellungen und Raumgestaltung" data-zh="展览与空间设计">Exhibitions and spatial design</option>
         </select>
         <button class="btn" type="submit"><span class="en">Join the waitlist</span><span class="zh">加入等候名单</span><span class="de">Auf die Warteliste</span></button>
@@ -364,7 +337,7 @@
   function applyLang(){
     root.dataset.lang=lang;root.lang=lang==='zh'?'zh-CN':lang;
     langBtns.forEach(b=>b.setAttribute('aria-pressed',b.dataset.l===lang));
-    document.title=T({en:'wumo.ai: simulate the physical world',de:'wumo.ai: die physische Welt simulieren',zh:'wumo.ai 物模：模拟真实物理世界'});
+    document.title=T({en:'wumo.ai — Understand. Simulate. Optimize.',de:'wumo.ai — Verstehen. Simulieren. Optimieren.',zh:'wumo.ai 物模 — 理解·模拟·优化物理世界'});
     document.querySelectorAll('option[data-en]').forEach(o=>o.textContent=o.dataset[lang]);
     document.querySelectorAll('[data-ph-en]').forEach(i=>i.placeholder=i.dataset['ph'+lang[0].toUpperCase()+lang[1]]);
     renderPanel();
@@ -423,11 +396,10 @@
       msg.textContent=T({en:'Enter a valid email address, like you@studio.com.',de:'Geben Sie eine gültige E-Mail-Adresse ein, z. B. sie@studio.de.',zh:'请输入有效的邮箱地址，例如 you@studio.com。'});form.email.focus();return;
     }
     const ep=form.dataset.endpoint;
-    if(ep){
-      try{await fetch(ep,{method:'POST',headers:{'Accept':'application/json'},body:new FormData(form)});}
-      catch(e){msg.textContent=T({en:'Sign-up didn\u2019t go through. Check your connection and try again.',de:'Die Anmeldung ist nicht durchgegangen. Prüfen Sie Ihre Verbindung und versuchen Sie es erneut.',zh:'没有发送成功，请检查网络后重试。'});return;}
-    }
-    msg.textContent=T({en:'You\u2019re on the waitlist. We\u2019ll email you when early access opens.',de:'Sie stehen auf der Warteliste. Wir schreiben Ihnen, sobald der frühe Zugang startet.',zh:'已加入等候名单。开放体验时我们会发邮件通知你。'});
+    if(!ep){msg.textContent=T({en:'The waitlist is not open yet. No information has been submitted.',de:'Die Warteliste ist noch nicht aktiv. Es wurden keine Daten übermittelt.',zh:'等候名单尚未启用，本次没有提交任何信息。'});return;}
+    try{const response=await fetch(ep,{method:'POST',headers:{'Accept':'application/json'},body:new FormData(form)});if(!response.ok)throw Error('HTTP '+response.status);}
+    catch(e){msg.textContent=T({en:'Sign-up failed. Please try again later.',de:'Anmeldung fehlgeschlagen. Bitte später erneut versuchen.',zh:'提交失败，请稍后重试。'});return;}
+    msg.textContent=T({en:'Successfully submitted. Thank you for your interest.',de:'Erfolgreich übermittelt. Vielen Dank für Ihr Interesse.',zh:'提交成功，感谢关注。'});
     form.reset();
   });
 
